@@ -20,7 +20,7 @@ main{
     justify-content: center;
 }
 
-button{
+button, select{
     padding: 5px;
     width: 70px;
 }
@@ -41,8 +41,8 @@ footer{
 }
 
 .cell{
-    width: calc(100% /10);
-    height: calc(100% /10);
+    width: calc(100% / var(--sideSquare));
+    height: calc(100% / var(--sideSquare));
     border: 1px solid black;
     display: flex;
     justify-content: center;
