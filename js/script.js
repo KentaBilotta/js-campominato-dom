@@ -3,6 +3,21 @@ const eleGrid = document.querySelector(".grid");
 const eleStart = document.querySelector(".start");
 
 btnPlay.addEventListener("click", function() {
+    
+    const Numbers = [];
+
+    for (let i=1; i<=16; i++) {
+        const randomNumber = getRndInteger(1, 100);
+        console.log(randomNumber);
+        Numbers.push(randomNumber);
+    }
+
+    console.log(Numbers);
+
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
+
     eleGrid.innerHTML = "";
     eleStart.classList.add("hidden");
     eleGrid.classList.remove("hidden");
@@ -13,8 +28,15 @@ btnPlay.addEventListener("click", function() {
         eleCell.innerHTML += i;
         eleGrid.append(eleCell);
 
-        eleCell.addEventListener("click", function() {
-            eleCell.classList.toggle("active");
-        });
+        if (Numbers.includes(i)) {
+            eleCell.addEventListener("click", function() {
+                eleCell.classList.toggle("bomb");
+            });
+            } else {
+                eleCell.addEventListener("click", function() {
+                    eleCell.classList.toggle("active");
+                });
+            }
     }
+
 });

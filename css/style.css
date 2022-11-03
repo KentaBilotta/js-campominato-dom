@@ -58,3 +58,9 @@ footer{
     color: white;
     background-color: rgb(14, 14, 185);
 }
+
+.bomb{
+    border: 1px solid white;
+    color: white;
+    background-color: rgb(117, 8, 8);
+}
