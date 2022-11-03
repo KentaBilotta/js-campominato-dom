@@ -17,7 +17,10 @@ btnPlay.addEventListener("click", function() {
     const Numbers = [];
 
     for (let i=1; i<=16; i++) {
-        const randomNumber = getRndInteger(1, nCells);
+        let randomNumber;
+        do {
+            randomNumber = getRndInteger(1, nCells);
+        } while (Numbers.includes(randomNumber));
         console.log(randomNumber);
         Numbers.push(randomNumber);
     }
