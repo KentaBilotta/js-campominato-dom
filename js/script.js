@@ -4,8 +4,10 @@ const eleStart = document.querySelector(".start");
 const eleSelectLevel = document.querySelector("#select-level");
 
 let bombNumbers;
+let score;
 
 btnPlay.addEventListener("click", function() {
+    score = 0;
 
     eleGrid.innerHTML = "";
     eleStart.classList.add("hidden");
@@ -47,15 +49,18 @@ btnPlay.addEventListener("click", function() {
 function toggleCell() {
     if (bombNumbers.includes(parseInt(this.innerHTML))) {
 
-            const allCells = eleGrid.querySelectorAll(".cell");
-            for (let i = 0; i < allCells.length; i++) {
-                if (bombNumbers.includes(parseInt(allCells[i].innerHTML))) {
+        const allCells = eleGrid.querySelectorAll(".cell");
+        for (let i = 0; i < allCells.length; i++) {
+            if (bombNumbers.includes(parseInt(allCells[i].innerHTML))) {
                     allCells[i].classList.add("bomb");
-                }
-                allCells[i].removeEventListener("click", toggleCell);
-                console.log("listener rimosso");
             }
+            allCells[i].removeEventListener("click", toggleCell);
+            console.log("listener rimosso");
+        }
+        alert("Ops, hai pestato una bomba. Hai totalizzato " + score + " punti");
     } else {
-            this.classList.toggle("active");
+        this.removeEventListener("click", toggleCell);
+        score++;
+        this.classList.add("active");
     }
 }
