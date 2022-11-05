@@ -3,6 +3,8 @@ const eleGrid = document.querySelector(".grid");
 const eleStart = document.querySelector(".start");
 const eleSelectLevel = document.querySelector("#select-level");
 
+let bombNumbers;
+
 btnPlay.addEventListener("click", function() {
 
     eleGrid.innerHTML = "";
@@ -14,18 +16,17 @@ btnPlay.addEventListener("click", function() {
     eleGrid.style.setProperty("--sideSquare", sideSquare);
 
         
-    const Numbers = [];
+    bombNumbers = [];
 
     for (let i=1; i<=16; i++) {
         let randomNumber;
         do {
             randomNumber = getRndInteger(1, nCells);
-        } while (Numbers.includes(randomNumber));
-        console.log(randomNumber);
-        Numbers.push(randomNumber);
+        } while (bombNumbers.includes(randomNumber));
+        bombNumbers.push(randomNumber);
     }
 
-    console.log(Numbers);
+    console.log(bombNumbers);
 
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -35,18 +36,26 @@ btnPlay.addEventListener("click", function() {
     for (i=1; i<=nCells; i++) {
         const eleCell = document.createElement("div");
         eleCell.classList.add("cell");
-        eleCell.innerHTML += i;
+        eleCell.innerHTML = i;
         eleGrid.append(eleCell);
 
-        if (Numbers.includes(i)) {
-            eleCell.addEventListener("click", function() {
-                eleCell.classList.toggle("bomb");
-            });
-            } else {
-                eleCell.addEventListener("click", function() {
-                    eleCell.classList.toggle("active");
-                });
-            }
+        eleCell.addEventListener("click", toggleCell);
     }
 
 });
+
+function toggleCell() {
+    if (bombNumbers.includes(parseInt(this.innerHTML))) {
+
+            const allCells = eleGrid.querySelectorAll(".cell");
+            for (let i = 0; i < allCells.length; i++) {
+                if (bombNumbers.includes(parseInt(allCells[i].innerHTML))) {
+                    allCells[i].classList.add("bomb");
+                }
+                allCells[i].removeEventListener("click", toggleCell);
+                console.log("listener rimosso");
+            }
+    } else {
+            this.classList.toggle("active");
+    }
+}
