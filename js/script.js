@@ -5,9 +5,11 @@ const eleSelectLevel = document.querySelector("#select-level");
 
 let bombNumbers;
 let score;
+let maxScore;
 
 btnPlay.addEventListener("click", function() {
     score = 0;
+    const nBombs = 16;
 
     eleGrid.innerHTML = "";
     eleStart.classList.add("hidden");
@@ -17,7 +19,7 @@ btnPlay.addEventListener("click", function() {
     const sideSquare = Math.sqrt(nCells);
     eleGrid.style.setProperty("--sideSquare", sideSquare);
 
-        
+    maxScore = nCells - nBombs;
     bombNumbers = [];
 
     for (let i=1; i<=16; i++) {
@@ -28,7 +30,7 @@ btnPlay.addEventListener("click", function() {
         bombNumbers.push(randomNumber);
     }
 
-    console.log(bombNumbers);
+    console.log(bombNumbers.sort((a, b) => a - b));
 
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -48,19 +50,27 @@ btnPlay.addEventListener("click", function() {
 
 function toggleCell() {
     if (bombNumbers.includes(parseInt(this.innerHTML))) {
+        disableCells();
+        alert("Ops, hai pestato una bomba. Punti totalizzati: " + score);
+        console.log("Ops, hai pestato una bomba. Punti totalizzati: " + score);
+    } else {
+        this.removeEventListener("click", toggleCell);
+        score++;
+        this.classList.add("active");
+        if (score == maxScore) {
+            alert("Complimenti hai vinto! Punti totalizzati: " + score);
+            console.log("Complimenti hai vinto! Punti totalizzati: " + score);
+            disableCells();
+        }
+    }
+}
 
-        const allCells = eleGrid.querySelectorAll(".cell");
+function disableCells() {
+    const allCells = eleGrid.querySelectorAll(".cell");
         for (let i = 0; i < allCells.length; i++) {
             if (bombNumbers.includes(parseInt(allCells[i].innerHTML))) {
                     allCells[i].classList.add("bomb");
             }
             allCells[i].removeEventListener("click", toggleCell);
-            console.log("listener rimosso");
         }
-        alert("Ops, hai pestato una bomba. Hai totalizzato " + score + " punti");
-    } else {
-        this.removeEventListener("click", toggleCell);
-        score++;
-        this.classList.add("active");
-    }
 }
